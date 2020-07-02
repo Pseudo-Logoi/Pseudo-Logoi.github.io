@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>装饰器decorator | Why的个人站</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://pseudo-logoi.github.io/favicon.ico?v=1593689193186">
+<link rel="stylesheet" href="https://pseudo-logoi.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="装饰器decorator
+
+1 概念理解
+
+Python 中的函数可以像普通变量一样当做参数传递给另外一个函数；
+装饰器本质上是一个 Python 函数或类，它可以让其他函数或类在不需要做任何代码修改的前提下增加额外功能，装饰器的返回值也是..." />
+    <meta name="keywords" content="Python" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://pseudo-logoi.github.io">
+        <img src="https://pseudo-logoi.github.io/images/avatar.png?v=1593689193186" class="site-logo">
+        <h1 class="site-title">Why的个人站</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      七两清晨
+    </div>
+    <div class="site-footer">
+      辽ICP备19017768号 | <a class="rss" href="https://pseudo-logoi.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">装饰器decorator</h2>
+            <div class="post-date">2020-02-08</div>
+            
+            <div class="post-content" v-pre>
+              <p>装饰器decorator</p>
+<!-- more -->
+<h1 id="1-概念理解">1 概念理解</h1>
+<ol>
+<li>Python 中的函数可以像普通变量一样当做参数传递给另外一个函数；</li>
+<li>装饰器本质上是一个 Python 函数或类，它可以让其他函数或类在不需要做任何代码修改的前提下增加额外功能，装饰器的返回值也是一个函数/类对象；</li>
+<li>decorator就是一个返回函数的高阶函数；</li>
+<li>装饰器是在原函数外再加一层函数；</li>
+<li>装饰器可以在不修改原函数的情况下在函数前面或后面执行一些代码，或者进行异常捕捉（通过try）。</li>
+</ol>
+<h1 id="2-无参数函数装饰器">2 无参数函数装饰器</h1>
+<h2 id="21-实例">2.1 实例</h2>
+<pre><code class="language-python">import functools
+
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+
+@log
+def now():
+    print('2020-02-08')
+
+now()
+</code></pre>
+<p>执行结果：</p>
+<pre><code class="language-python">call now():
+2020-02-08
+</code></pre>
+<h2 id="22-知识点">2.2 知识点</h2>
+<h3 id="221-装饰符">2.2.1 装饰符@</h3>
+<p>@的作用是将其下的函数（func）作为参数传入@后的函数（test）中，并执行。</p>
+<p><strong>实例</strong></p>
+<pre><code class="language-python">def test(f):
+    print(&quot;before ...&quot;)
+    f()
+    print(&quot;after ...&quot;)
+
+def func():
+    print(&quot;func was called&quot;)
+   
+func = test(func)
+
+# 以上代码与下面等效
+
+def test(f):
+    print(&quot;before ...&quot;)
+    f()
+    print(&quot;after ...&quot;)
+
+@test  # 相当于执行了func = test(func)
+def func():
+    print(&quot;func was called&quot;)
+</code></pre>
+<p>执行结果：</p>
+<pre><code class="language-python">before ...
+func was called
+after ...
+</code></pre>
+<h3 id="222-functoolswrapsfunc">2.2.2 <code>@functools.wraps(func)</code></h3>
+<p>经过decorator装饰之后的函数，它们的<code>__name__</code>已经从原来的<code>'now'</code>变成了<code>'wrapper'</code>，被装饰后的函数其实已经是另外一个函数了。为了不影响其属性，使用<code>@functools.wraps(func)</code>将输入函数的属性复制过来。</p>
+<h1 id="3-带参数函数装饰器">3 带参数函数装饰器</h1>
+<h2 id="31-实例">3.1 实例</h2>
+<pre><code class="language-python">import functools
+
+def log(text):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            print('%s %s():' % (text, func.__name__))
+            return func(*args, **kw)
+        return wrapper
+    return decorator
+
+@log('abc')
+def now():
+    print('2020-02-08')
+
+now()
+</code></pre>
+<h2 id="32-知识点">3.2 知识点</h2>
+<ol>
+<li>这里log是一个返回decorator的高阶函数；</li>
+<li><code>@log('abc')</code>的作用是<code>now = log('execute')(now)</code></li>
+</ol>
+<h1 id="4-装饰器进行异常捕捉">4 装饰器进行异常捕捉</h1>
+<h2 id="41-实例1">4.1 实例1</h2>
+<pre><code class="language-python">def d_func(fun):
+    def add_cap(*args, **kwargs):
+        try:
+            fun(*args, **kwargs)
+        except:
+            print('Error execute: %s' % fun.__name__)
+            print(kwargs)
+            print(traceback.format_exc())
+            sys.exit()
+    return add_cap
+
+@d_func
+def u_func():  #只在这个函数中用，因此定义在此函数中
+    1/0
+
+u_func()  # 调用
+</code></pre>
+<h2 id="42-实例2">4.2 实例2</h2>
+<pre><code class="language-python">def run_with_exc(f):
+    &quot;&quot;&quot;游戏运行出现错误时，用messagebox把错误信息显示出来&quot;&quot;&quot;
+    def call(window, *args, **kwargs):
+        try:
+            return f(window, *args, **kwargs)
+        except Exception:
+            exc_info = traceback.format_exc()
+            QMessageBox.about(window, '错误信息', exc_info)
+    return call
+</code></pre>
+<h1 id="5-参考资料">5 参考资料</h1>
+<ol>
+<li>https://www.liaoxuefeng.com/wiki/1016959663602400/1017451662295584</li>
+<li>https://www.runoob.com/w3cnote/python-func-decorators.html</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://pseudo-logoi.github.io/tag/aHXfkbYyV/" class="tag">
+                    Python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://pseudo-logoi.github.io/post/MaixPy_0.96OLED/">
+                  <h3 class="post-title">
+                    MaixPy_0.96OLED
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
