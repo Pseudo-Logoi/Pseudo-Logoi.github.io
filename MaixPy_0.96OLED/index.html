@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>MaixPy_0.96OLED | 海洋的个人站</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://pseudo-logoi.github.io/favicon.ico?v=1594711773256">
+<link rel="stylesheet" href="https://pseudo-logoi.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="MaixPy_0.96OLED
+
+1. 初始化IIC
+from machine import I2C
+import utime
+
+i2c = I2C(I2C.I2C0, mode=I2C.MODE_MASTER, freq=400000, ..." />
+    <meta name="keywords" content="K210,MicroPython" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://pseudo-logoi.github.io">
+        <img src="https://pseudo-logoi.github.io/images/avatar.png?v=1594711773256" class="site-logo">
+        <h1 class="site-title">海洋的个人站</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      知易行难
+    </div>
+    <div class="site-footer">
+      <a href="http://beian.miit.gov.cn/">辽ICP备19017768号</a> | <a class="rss" href="https://pseudo-logoi.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">MaixPy_0.96OLED</h2>
+            <div class="post-date">2019-12-27</div>
+            
+            <div class="post-content" v-pre>
+              <p>MaixPy_0.96OLED</p>
+<!-- more -->
+<h3 id="1-初始化iic">1. 初始化IIC</h3>
+<pre><code class="language-python">from machine import I2C
+import utime
+
+i2c = I2C(I2C.I2C0, mode=I2C.MODE_MASTER, freq=400000, scl=28, sda=29, addr_size=7)
+utime.sleep(1)
+</code></pre>
+<p><strong>参数</strong></p>
+<ul>
+<li>
+<p><code>id</code>： I2C ID, [0~2] (I2C.I2C0~I2C.I2C2)</p>
+</li>
+<li>
+<p><code>mode</code>： 模式， 主机(<code>I2C.MODE_MASTER</code>)和从机（<code>I2C.MODE_SLAVE</code>)模式</p>
+</li>
+<li>
+<p><code>scl</code>： SCL 引脚，直接传引脚编号即可，取值范围： [0,47]。 可以不设置，而是使用 <a href="https://maixpy.sipeed.com/zh/libs/builtin_py/fm.html">fm</a> 统一管理引脚映射。</p>
+</li>
+<li>
+<p><code>sda</code>： SDA 引脚，直接传引脚编号即可，取值范围： [0,47]。 可以不设置，而是使用 <a href="https://maixpy.sipeed.com/zh/libs/builtin_py/fm.html">fm</a> 统一管理引脚映射。</p>
+</li>
+<li>
+<p><code>freq</code>： I2C通信频率， 支持标准100Kb/s, 快速400Kb/s， 以及更高速率（硬件支持超快速模式1000Kb/s，以及高速模式3.4Mb/s）</p>
+</li>
+<li>
+<p><code>addr_size</code>： 地址长度， 支持 7 位寻址和 10 位寻址， 取值<code>7</code>或者<code>10</code></p>
+</li>
+</ul>
+<h3 id="2-写数据">2. 写数据</h3>
+<pre><code class="language-python">SSD1306_ADDR = 0x3c
+i2c.writeto_mem(SSD1306_ADDR, memaddr, buf, mem_size=8)
+</code></pre>
+<p><strong>参数</strong></p>
+<ul>
+<li><code>addr</code>: 从机地址</li>
+<li><code>memaddr</code>： 从机寄存器地址</li>
+<li><code>buf</code>： 需要写的数据</li>
+<li><code>mem_size</code>： 寄存器宽度， 默认为8位</li>
+</ul>
+<p><strong>注</strong></p>
+<p>在ssd1306中，memaddr为控制字节，控制字节组成为<code>Co d/c# 0 0 0 0 0 0</code></p>
+<p>写命令为0x00，写数据为0x40。详见下图：</p>
+<figure data-type="image" tabindex="1"><img src="https://s2.ax1x.com/2019/12/27/lVSqPA.png" alt="lVSqPA.png" loading="lazy"></figure>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://pseudo-logoi.github.io/fWfH5l86ze/" class="tag">
+                    K210
+                  </a>
+                
+                  <a href="https://pseudo-logoi.github.io/vef2ZGfMPP/" class="tag">
+                    MicroPython
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://pseudo-logoi.github.io/IIC/">
+                  <h3 class="post-title">
+                    IIC
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

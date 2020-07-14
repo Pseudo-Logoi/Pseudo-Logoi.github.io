@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>标签列表 | 海洋的个人站</title>
+<title>IIC | 海洋的个人站</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,7 +22,14 @@
 
 
 
-    <meta name="description" content="知易行难">
+    <meta name="description" content="IIC
+
+转载自 https://blog.csdn.net/solar_Lan/article/details/78033869
+void IIC_Start(void)//SCL高电平SDA下降沿
+{
+	MY_IIC_SCL = 1;
+..." />
+    <meta name="keywords" content="单片机" />
   </head>
   <body>
     <div id="app" class="main">
@@ -94,28 +101,91 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="tag-list-title">标签列表</h2>
-          <div class="tags-container">
+          <div class="post-detail">
+            <h2 class="post-title">IIC</h2>
+            <div class="post-date">2019-12-27</div>
             
-              <a class="tag" href="https://pseudo-logoi.github.io/JbbWUYcI1/">c++</a>
+            <div class="post-content" v-pre>
+              <p>IIC</p>
+<!-- more -->
+<p>转载自 https://blog.csdn.net/solar_Lan/article/details/78033869</p>
+<pre><code class="language-c">void IIC_Start(void)//SCL高电平SDA下降沿
+{
+	MY_IIC_SCL = 1;
+	_nop_();
+	MY_IIC_SDA = 1;
+	_nop_();
+	MY_IIC_SDA = 0;
+	_nop_();
+	MY_IIC_SCL = 0;
+	_nop_();
+}
+
+void IIC_Stop(void)//SCL高电平SDA上升沿
+{
+	MY_IIC_SDA = 0;
+	_nop_();
+	MY_IIC_SCL = 1;
+	_nop_();
+	MY_IIC_SDA = 1;
+	_nop_();
+	//总线空闲时SCL SDA均为高
+}
+
+void IIC_Wait_Ack(void)
+{
+	unsigned char temp = 0;
+	MY_IIC_SDA = 1;		//先拉高SDA，等待从器件拉低
+	_nop_();
+	MY_IIC_SCL = 1;		//八位数据后的第九个时钟
+	_nop_();
+	while((MY_IIC_SDA==1)&amp;&amp;(temp&lt;200))temp++;//至多等待200个CPU时钟
+	MY_IIC_SCL = 0;		//八位数据后的第九个时钟
+	_nop_();
+}
+
+void IIC_Write_Byte(unsigned char IIC_Byte)
+{
+	unsigned char i;
+	for(i=0;i&lt;8;i++)
+	{
+		MY_IIC_SDA = IIC_Byte &gt;&gt; 7;//先发高位
+		_nop_();
+		MY_IIC_SCL = 1;
+		_nop_();
+		MY_IIC_SCL = 0;
+		_nop_();
+		IIC_Byte &lt;&lt;= 1;
+	}
+	IIC_Wait_Ack();
+}
+</code></pre>
+
+            </div>
             
-              <a class="tag" href="https://pseudo-logoi.github.io/98aa8WtQI/">python</a>
+              <div class="tag-container">
+                
+                  <a href="https://pseudo-logoi.github.io/WLftjCpTYP/" class="tag">
+                    单片机
+                  </a>
+                
+              </div>
             
-              <a class="tag" href="https://pseudo-logoi.github.io/CX5GgL0K6x/">解决方法</a>
             
-              <a class="tag" href="https://pseudo-logoi.github.io/medsdcRdHx/">Win10</a>
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://pseudo-logoi.github.io/蓝牙串口调试/">
+                  <h3 class="post-title">
+                    蓝牙串口调试
+                  </h3>
+                </a>
+              </div>
             
-              <a class="tag" href="https://pseudo-logoi.github.io/aHXfkbYyV/">Python</a>
+
             
-              <a class="tag" href="https://pseudo-logoi.github.io/fWfH5l86ze/">K210</a>
-            
-              <a class="tag" href="https://pseudo-logoi.github.io/vef2ZGfMPP/">MicroPython</a>
-            
-              <a class="tag" href="https://pseudo-logoi.github.io/WLftjCpTYP/">单片机</a>
-            
-              <a class="tag" href="https://pseudo-logoi.github.io/cVuNOk75LH/">模块</a>
-            
+
           </div>
+
         </div>
       </div>
     </div>
