@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>修改m4a文件详细信息 | 海洋的个人站</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://pseudo-logoi.github.io/favicon.ico?v=1596864300603">
+<link rel="stylesheet" href="https://pseudo-logoi.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="最近喜欢听赵海洋的夜色钢琴曲，想把所有音频下载在电脑上。试了几个客户端，Android和win10的客户端下载都是xm文件，只有win10 UWP应用下载后是m4a文件。但是下载后的m4a文件的详细信息乱码，文件名保存在list.json文..." />
+    <meta name="keywords" content="Python" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://pseudo-logoi.github.io">
+        <img src="https://pseudo-logoi.github.io/images/avatar.png?v=1596864300603" class="site-logo">
+        <h1 class="site-title">海洋的个人站</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      知易行难
+    </div>
+    <div class="site-footer">
+      <a href="http://beian.miit.gov.cn/">辽ICP备19017768号</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">修改m4a文件详细信息</h2>
+            <div class="post-date">2020-08-08</div>
+            
+              <div class="feature-container" style="background-image: url('https://pseudo-logoi.github.io/post-images/修改m4a文件详细信息.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>最近喜欢听赵海洋的夜色钢琴曲，想把所有音频下载在电脑上。试了几个客户端，Android和win10的客户端下载都是xm文件，只有win10 UWP应用下载后是m4a文件。但是下载后的m4a文件的详细信息乱码，文件名保存在list.json文件中。所以就有了这篇博客。</p>
+<!-- more -->
+<h1 id="一-读取json文件">一、读取json文件</h1>
+<p>使用<code>json.load(load_list)</code>方法，将list.json中的json字符串转换成字典。其中<code>&quot;title&quot;</code>是音频名称，<code>&quot;trackId&quot;</code>是下载后的文件名。list.json中每首歌都是一个json字符串，读取进来后是一个列表。</p>
+<h1 id="二-修改文件名">二、修改文件名</h1>
+<p>使用<code>os.rename(m4aPath, newname)</code>方法。</p>
+<h1 id="三-修改文件详细信息">三、修改文件详细信息</h1>
+<p>修改详细信息使用了<code>mutagen</code>的mp4模块。修改了详细信息中标题、参与创作的艺术家、唱片集艺术家、唱片集。</p>
+<h1 id="四-代码">四、代码</h1>
+<pre><code class="language-python">#-*-coding:utf-8-*-
+import json
+from mutagen.mp4 import MP4
+import os
+
+track_title = '\xa9nam'    # 标题
+artist = '\xa9ART'          # 参与创作的艺术家
+album_artist = 'aART'       # 唱片集艺术家
+album = '\xa9alb'           # 唱片集
+
+rootPath = '291718\\' # m4a文件目录
+
+with open(&quot;291718list.json&quot;,'r', encoding='UTF-8') as load_list:
+    load_dicts = json.load(load_list)
+    for load_dict in load_dicts:
+        # 获取文件名
+        title = load_dict[&quot;title&quot;].replace('夜色钢琴曲', '')
+        title = title.replace(' - 赵海洋', '')
+        title = title.replace('赵海洋', '')
+        title = title.replace('-', '')
+        title = title.replace('《', '')
+        title = title.replace('》', '')
+        title = title.strip()
+        # 修改详细信息
+        m4aPath = rootPath + str(load_dict[&quot;trackId&quot;]) + &quot;.m4a&quot;
+        songFile = MP4(m4aPath)
+        songFile[track_title] = title
+        songFile[artist] = &quot;赵海洋&quot;
+        songFile[album_artist] = &quot;赵海洋&quot;
+        songFile[album] = &quot;夜色钢琴曲&quot;
+        songFile.save()
+        # 修改文件名
+        newname = rootPath + &quot;《夜色钢琴曲》&quot; + title + &quot; - 赵海洋&quot; + &quot;.m4a&quot;
+        os.rename(m4aPath, newname)
+        print(newname)
+
+print(&quot;Done!&quot;)
+</code></pre>
+<h1 id="参考资料">参考资料</h1>
+<ol>
+<li>
+<p><a href="https://blog.csdn.net/weixin_38587484/article/details/97802917">Python 使用mutagen写入MP3文件标签信息</a></p>
+</li>
+<li>
+<p><a href="https://mutagen.readthedocs.io/en/latest/api/mp4.html#module-mutagen.easymp4">mutagen-mp4</a></p>
+</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://pseudo-logoi.github.io/aHXfkbYyV/" class="tag">
+                    Python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://pseudo-logoi.github.io/修改侧栏页脚/">
+                  <h3 class="post-title">
+                    修改侧栏页脚
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
