@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>bat批处理 | 海洋的个人站</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://pseudo-logoi.github.io/favicon.ico?v=1598171396424">
+<link rel="stylesheet" href="https://pseudo-logoi.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="使用bat批处理时遇到的问题
+
+方法
+1. 延时
+我使用的是ping的方法：
+ping -n 3 127.0.0.1&gt;nul
+
+以上语句中 3 既是延时三秒。
+其他延时方法见参考资料。
+
+参考资料：cmd-bat批处理命令延时方法
+
+..." />
+    <meta name="keywords" content="1,2,3" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://pseudo-logoi.github.io">
+        <img src="https://pseudo-logoi.github.io/images/avatar.png?v=1598171396424" class="site-logo">
+        <h1 class="site-title">海洋的个人站</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      知易行难
+    </div>
+    <div class="site-footer">
+      <a href="http://beian.miit.gov.cn/">辽ICP备19017768号</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">bat批处理</h2>
+            <div class="post-date">2020-08-23</div>
+            
+            <div class="post-content" v-pre>
+              <p>使用bat批处理时遇到的问题</p>
+<!-- more -->
+<h1 id="方法">方法</h1>
+<h2 id="1-延时">1. 延时</h2>
+<p>我使用的是ping的方法：</p>
+<pre><code class="language-bat">ping -n 3 127.0.0.1&gt;nul
+</code></pre>
+<p>以上语句中 <code>3</code> 既是延时三秒。</p>
+<p>其他延时方法见参考资料。</p>
+<blockquote>
+<p>参考资料：<a href="https://blog.csdn.net/jk110333/article/details/41869053">cmd-bat批处理命令延时方法</a></p>
+</blockquote>
+<h2 id="2-关闭回显">2. 关闭回显</h2>
+<pre><code class="language-bat">@echo off
+</code></pre>
+<p>效果如下：</p>
+<center class="half">
+    <img src="https://raw.githubusercontent.com/Pseudo-Logoi/PicGo/master/20200823162510.png" width="300"/><img src="https://raw.githubusercontent.com/Pseudo-Logoi/PicGo/master/20200823162341.png" width="300"/>
+</center>
+<center class="half">
+    <img src="https://raw.githubusercontent.com/Pseudo-Logoi/PicGo/master/20200823162532.png" width="300"/><img src="https://raw.githubusercontent.com/Pseudo-Logoi/PicGo/master/20200823162533.png" width="300"/>
+</center>
+<blockquote>
+<p>参考资料：<a href="https://blog.csdn.net/c1520006273/article/details/50539017">批处理文件的@echo off是什么意思?</a></p>
+</blockquote>
+<h1 id="其他">其他</h1>
+<h2 id="1-注释">1. 注释</h2>
+<p>两个冒号 <code>::</code></p>
+<blockquote>
+<p>参考资料：<a href="https://blog.csdn.net/wh_19910525/article/details/8125762">bat批处理的注释语句</a></p>
+</blockquote>
+<h2 id="2-重启资源管理器">2. 重启资源管理器</h2>
+<pre><code class="language-bat">taskkill /IM explorer.exe /F
+start &quot;&quot; explorer.exe
+</code></pre>
+<h2 id="3-cmd中文乱码修改编码">3. cmd中文乱码（修改编码）</h2>
+<p>定位到注册表 HKEY_CURRENT_USER\Console%SystemRoot%_system32_cmd.exe</p>
+<p>新建一个 DWORD（32位值）,命名为CodePage，值设为65001</p>
+<p>已有CodePage的话，修改它，改为十进制，65001</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码页</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">65001</td>
+<td style="text-align:center">UTF-8</td>
+</tr>
+<tr>
+<td style="text-align:center">950</td>
+<td style="text-align:center">繁体中文</td>
+</tr>
+<tr>
+<td style="text-align:center">936</td>
+<td style="text-align:center">简体中文默认的GBK</td>
+</tr>
+<tr>
+<td style="text-align:center">437</td>
+<td style="text-align:center">MS-DOS 美国英语</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>参考资料：<a href="https://blog.csdn.net/qq_35038153/article/details/78430359">windows 控制台cmd乱码（及永久修改编码）的解决办法</a></p>
+</blockquote>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://pseudo-logoi.github.io/2kB4RfHTS/" class="tag">
+                    1
+                  </a>
+                
+                  <a href="https://pseudo-logoi.github.io/0TKw6HOn4d/" class="tag">
+                    2
+                  </a>
+                
+                  <a href="https://pseudo-logoi.github.io/d73OtwVcU7/" class="tag">
+                    3
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://pseudo-logoi.github.io/vbs脚本/">
+                  <h3 class="post-title">
+                    vbs
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

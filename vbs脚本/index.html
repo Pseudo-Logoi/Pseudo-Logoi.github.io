@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>vbs | 海洋的个人站</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://pseudo-logoi.github.io/favicon.ico?v=1598171396424">
+<link rel="stylesheet" href="https://pseudo-logoi.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="使用VBS脚本时遇到的一些问题。
+
+方法
+1. 消息弹窗
+MsgBox(&quot;显示文字&quot;, buttons, &quot;窗口名&quot;)
+
+buttons可选：
+
+0 = vbOKOnly - 只显示 OK 按钮
+1 ..." />
+    <meta name="keywords" content="1,2,3" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://pseudo-logoi.github.io">
+        <img src="https://pseudo-logoi.github.io/images/avatar.png?v=1598171396424" class="site-logo">
+        <h1 class="site-title">海洋的个人站</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      知易行难
+    </div>
+    <div class="site-footer">
+      <a href="http://beian.miit.gov.cn/">辽ICP备19017768号</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">vbs</h2>
+            <div class="post-date">2020-08-23</div>
+            
+            <div class="post-content" v-pre>
+              <p>使用VBS脚本时遇到的一些问题。</p>
+<!-- more -->
+<h1 id="方法">方法</h1>
+<h2 id="1-消息弹窗">1. 消息弹窗</h2>
+<pre><code class="language-vbscript">MsgBox(&quot;显示文字&quot;, buttons, &quot;窗口名&quot;)
+</code></pre>
+<p>buttons可选：</p>
+<ul>
+<li>0 = vbOKOnly - 只显示 OK 按钮</li>
+<li>1 = vbOKCancel - 显示 OK 和 Cancel 按钮</li>
+<li>2 = vbAbortRetryIgnore - 显示 Abort、Retry 和 Ignore 按钮</li>
+<li>3 = vbYesNoCancel - 显示 Yes、No 和 Cancel 按钮</li>
+<li>4 = vbYesNo - 显示 Yes 和 No 按钮</li>
+<li>5 = vbRetryCancel - 显示 Retry 和 Cancel 按钮</li>
+<li>16 = vbCritical - 显示临界信息图标</li>
+<li>32 = vbQuestion - 显示警告查询图标</li>
+<li>48 = vbExclamation - 显示警告消息图标</li>
+<li>64 = vbInformation - 显示信息消息图标</li>
+<li>0 = vbDefaultButton1 - 第一个按钮为默认按钮</li>
+<li>256 = vbDefaultButton2 - 第二个按钮为默认按钮</li>
+<li>512 = vbDefaultButton3 - 第三个按钮为默认按钮</li>
+<li>768 = vbDefaultButton4 - 第四个按钮为默认按钮</li>
+<li>0 = vbApplicationModal - 应用程序模式（用户必须响应消息框才能继续在当前应用程序中工作）</li>
+<li>4096 = vbSystemModal - 系统模式（在用户响应消息框前，所有应用程序都被挂起）</li>
+</ul>
+<blockquote>
+<p>参考资料：<a href="https://www.runoob.com/vbscript/vbscript-ref-functions.html">菜鸟教程 VBScript 函数</a></p>
+</blockquote>
+<h2 id="2-延时">2. 延时</h2>
+<pre><code class="language-vbscript">wscript.sleep 5000    '延时5秒
+</code></pre>
+<h1 id="其他">其他</h1>
+<h2 id="1-注释方法">1. 注释方法</h2>
+<p>单引号 <code>'</code></p>
+<h2 id="2-报错调用过程sub时不能使用括号">2. 报错”调用过程sub时不能使用括号“</h2>
+<p>调用过程（sub）时，有两种写法</p>
+<pre><code class="language-vbscript">Msgbox name, 0, &quot;hai&quot;    '不要加括号
+call  Msgbox(name,0,&quot;hai&quot;)   '加上call关键字*
+</code></pre>
+<p>因为MsgBox函数有返回值，而没有变量收它的返回值，所以会报错，解决方法如上，要么不加括号，要么加上call关键字</p>
+<blockquote>
+<p>参考资料：<a href="https://www.cnblogs.com/lonelyshy/p/12706320.html">调用过程(Sub)时不能使用括号</a></p>
+</blockquote>
+<h2 id="3-重启资源管理器">3. 重启资源管理器</h2>
+<pre><code class="language-vbscript">createobject(&quot;wscript.shell&quot;).run &quot;cmd /c taskkill /f /im explorer.exe&quot;,0,true
+createobject(&quot;wscript.shell&quot;).run &quot;explorer.exe&quot;
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://pseudo-logoi.github.io/2kB4RfHTS/" class="tag">
+                    1
+                  </a>
+                
+                  <a href="https://pseudo-logoi.github.io/0TKw6HOn4d/" class="tag">
+                    2
+                  </a>
+                
+                  <a href="https://pseudo-logoi.github.io/d73OtwVcU7/" class="tag">
+                    3
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://pseudo-logoi.github.io/修改m4a文件详细信息/">
+                  <h3 class="post-title">
+                    修改m4a文件详细信息
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
